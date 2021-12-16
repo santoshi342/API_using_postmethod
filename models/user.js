@@ -11,6 +11,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+
+      User.hasOne(models.Profile, {
+        foreignKey: 'user_id',
+        as: 'profile',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+
+      User.hasOne(models.Cart, {
+        foreignKey: 'user_id',
+        as: 'cart',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+
+
+      User.hasMany(models.Order, {
+        as: 'orders',
+        foreignKey:'user_id'
+
+      })
+      
+
+   
     }
   };
   User.init({
@@ -18,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     Email: DataTypes.STRING,
     Password: DataTypes.STRING,
     Phone: DataTypes.INTEGER,
-    Age: DataTypes.INTEGER
+    Age: DataTypes.INTEGER,
+    reset_password_token:DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'User',
